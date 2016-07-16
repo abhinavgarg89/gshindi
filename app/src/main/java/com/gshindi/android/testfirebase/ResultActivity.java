@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,9 +38,14 @@ public class ResultActivity extends BaseActivity {
 //        person.setMarks(score);
 
         //Storing values to firebase
-        Firebase childRef = ref.child("UserPerformanceReport").child(userEmail_).child("marks");
+        String uid = mAuth.getCurrentUser().getUid();
+//        String name = mAuth.getCurrentUser().getDisplayName();
+//        String test1 = mAuth.getCurrentUser().getProviderId();
+//        String Uid = mAuth.getCurrentUser().getUid();
+        Firebase childRef = ref.child("UserPerformanceReport").child(uid).child(questionSheetName);
         Map<String, Object> nickname = new HashMap<String, Object>();
-        nickname.put(questionSheetName, score);
+        nickname.put("marks", score);
+        nickname.put("date", new Date().toString());
         childRef.updateChildren(nickname);
         textView.setText(scoreTestViewString);
 
