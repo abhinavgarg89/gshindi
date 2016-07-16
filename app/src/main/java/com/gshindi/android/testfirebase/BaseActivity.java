@@ -24,6 +24,8 @@ public class BaseActivity extends AppCompatActivity {
     public ProgressDialog mProgressDialog;
     public FirebaseAuth mAuth;
 
+    public Firebase ref;
+
     public FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
@@ -32,6 +34,7 @@ public class BaseActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
 
         mAuth = FirebaseAuth.getInstance();
+        ref = new Firebase(Config.FIREBASE_URL);
         // [END initialize_auth]
 
         // [START auth_state_listener]

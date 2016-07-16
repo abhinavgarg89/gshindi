@@ -6,12 +6,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.firebase.client.Firebase;
 import com.gshindi.android.testfirebase.util.JsonFileParseUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ResultActivity extends BaseActivity {
@@ -25,8 +27,20 @@ public class ResultActivity extends BaseActivity {
 
         TextView textView = (TextView) findViewById(R.id.total_Score);
         String answerSheetName = getIntent().getStringExtra("answerSheetName");
+        String questionSheetName = getIntent().getStringExtra("questionSheetName");
         int score = evaluateScore(answers_, answerSheetName);
         String scoreTestViewString = "Total Score : " + score;
+
+        UserPerformanceReport person = new UserPerformanceReport();
+        person.setEmail(userEmail_);
+//        person.setQuesionSetId(questionSheetName);
+//        person.setMarks(score);
+
+        //Storing values to firebase
+        Firebase childRef = ref.child("UserPerformanceReport").child(userEmail_).child("marks");
+        Map<String, Object> nickname = new HashMap<String, Object>();
+        nickname.put(questionSheetName, score);
+        childRef.updateChildren(nickname);
         textView.setText(scoreTestViewString);
 
     }

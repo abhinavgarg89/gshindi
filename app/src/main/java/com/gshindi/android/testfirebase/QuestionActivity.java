@@ -28,6 +28,7 @@ public class QuestionActivity extends BaseActivity {
     CheckBox[] options = new CheckBox[4];
     Button nextButton, previousButton;
     private int totalScore;
+    String questionSetName = "questionSetName";
 
     JsonFileParseUtil jsonFileParseUtil_ = JsonFileParseUtil.getInstance();
 
@@ -58,7 +59,7 @@ public class QuestionActivity extends BaseActivity {
 
         }.start();
 
-        String questionSetName = getIntent().getStringExtra("selectedQuestionPaper");
+        questionSetName = getIntent().getStringExtra("selectedQuestionPaper");
         try {
             int resourceId = this.getResources().getIdentifier(questionSetName, "raw", this.getPackageName());
             InputStream inputStream = getResources().openRawResource(resourceId);
@@ -131,6 +132,7 @@ public class QuestionActivity extends BaseActivity {
     private void startResultActivity() {
         Intent myIntent = new Intent(QuestionActivity.this, ResultActivity.class);
         myIntent.putExtra("answerSheetName", answerSheetName_);
+        myIntent.putExtra("questionSheetName", questionSetName);
         QuestionActivity.this.startActivity(myIntent);
         finish();
     }
