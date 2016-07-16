@@ -30,21 +30,6 @@ public class QuestionSetListActivity extends BaseActivity {
         setContentView(R.layout.activity_question_set_list);
 
         InputStream inputStream = getResources().openRawResource(R.raw.question_set_list);
-//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-//        int ctr;
-//        try {
-//            ctr = inputStream.read();
-//            while (ctr != -1) {
-//                byteArrayOutputStream.write(ctr);
-//                ctr = inputStream.read();
-//            }
-//            inputStream.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        Log.v("Text Data", byteArrayOutputStream.toString());
-//
         ArrayList<String> questionSetList = new ArrayList<>();
         try {
             JSONObject jObject = jsonFileParseUtil_.getJsonObjectForFile(inputStream);

@@ -11,11 +11,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.gshindi.android.testfirebase.util.JsonFileParseUtil;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 public class QuestionActivity extends BaseActivity {
@@ -27,6 +28,8 @@ public class QuestionActivity extends BaseActivity {
     CheckBox[] options = new CheckBox[4];
     Button nextButton, previousButton;
     private int totalScore;
+
+    JsonFileParseUtil jsonFileParseUtil_ = JsonFileParseUtil.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,22 +57,12 @@ public class QuestionActivity extends BaseActivity {
             }
 
         }.start();
-
-        int ctr;
+        
         String questionSetName = getIntent().getExtras().get("selectedQuestionPaper").toString();
         try {
             int resourceId = this.getResources().getIdentifier(questionSetName, "raw", this.getPackageName());
             InputStream inputStream = getResources().openRawResource(resourceId);
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ctr = inputStream.read();
-            while (ctr != -1) {
-                byteArrayOutputStream.write(ctr);
-                ctr = inputStream.read();
-            }
-            inputStream.close();
-
-            Log.v("Text Data", byteArrayOutputStream.toString());
-            JSONObject jObject = new JSONObject(byteArrayOutputStream.toString());
+            JSONObject jObject = jsonFileParseUtil_.getJsonObjectForFile(inputStream);
             jArray = jObject.getJSONArray("questions");
             max_index = jArray.length() - 1;
             setNextData(current_index);
