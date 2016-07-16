@@ -5,20 +5,19 @@
               android:layout_height="fill_parent"
               android:gravity="center_horizontal"
               android:orientation="vertical"
+              android:padding="16dp"
               tools:context="com.gshindi.android.testfirebase.QuestionActivity">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_weight="5"
+        android:textSize="16dp"
         android:fillViewport="true">
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-           android:layout_height="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="16dp">
+            android:orientation="vertical">
             <TextView
                 android:id="@+id/seconds_remaining"
                 android:layout_width="match_parent"
@@ -27,60 +26,46 @@
                 android:id="@+id/quesion_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"/>
-            <CheckBox
-                android:id="@+id/option_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/option_1"/>
-            <CheckBox
-                android:id="@+id/option_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/option_2"/>
-            <CheckBox
-                android:id="@+id/option_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/option_3"/>
-            <CheckBox
-                android:id="@+id/option_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/option_4"/>
-            <!--<RelativeLayout-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="center_vertical">-->
-            <!--<LinearLayout-->
-            <!--android:id="@+id/email_password_buttons"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal">-->
-            <!--<Button-->
-            <!--android:id="@+id/previous_button"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="@string/previous_button"/>-->
-            <!--<Button-->
-            <!--android:id="@+id/next_button"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="@string/next_button"/>-->
-            <!--</LinearLayout>-->
-            <!--</RelativeLayout>-->
-        </LinearLayout>
+                android:layout_marginTop="50dp"/>
+            <RelativeLayout android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:orientation="vertical">
+                <CheckBox
+                    android:id="@+id/option_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/option_2"
+                    android:text="@string/option_1"/>
+                <CheckBox
+                    android:id="@+id/option_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/option_3"
+                    android:text="@string/option_2"/>
+                <CheckBox
+                    android:id="@+id/option_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/option_4"
+                    android:text="@string/option_3"/>
+                <CheckBox
+                    android:id="@+id/option_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_alignParentBottom="true"
+                    android:text="@string/option_4"/>
+            </RelativeLayout>
+        </RelativeLayout>
     </ScrollView>
     <RelativeLayout
+        android:id="@+id/email_password_buttons"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center_vertical">
         <LinearLayout
-            android:id="@+id/email_password_buttons"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

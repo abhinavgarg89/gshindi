@@ -50,7 +50,7 @@ public class QuestionActivity extends BaseActivity {
         new CountDownTimer(20000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                secondsRemaining.setText("seconds remaining: " + millisUntilFinished / 1000);
+                secondsRemaining.setText("Seconds Remaining: " + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
