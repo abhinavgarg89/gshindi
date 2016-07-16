@@ -193,7 +193,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             findViewById(R.id.email_password_buttons).setVisibility(View.GONE);
             findViewById(R.id.email_password_fields).setVisibility(View.GONE);
-
+            userEmail_ = mEmailField.getText().toString();
             Intent myIntent = new Intent(LoginActivity.this, QuestionSetListActivity.class);
             LoginActivity.this.startActivity(myIntent);
             finish();

@@ -6,6 +6,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.Map;
+
 public class ResultActivity extends BaseActivity {
 
     @Override
@@ -14,8 +16,9 @@ public class ResultActivity extends BaseActivity {
         setContentView(R.layout.activity_result);
 
         TextView textView = (TextView) findViewById(R.id.total_Score);
-
-        String score = getIntent().getExtras().get("totalScore").toString();
+        Map<Integer, Integer> test = answers_;
+        System.out.println(test.size());
+        int score = evaluateScore(answers_);
         String scoreTestViewString = "Total Score : " + score;
         textView.setText(scoreTestViewString);
 
@@ -62,5 +65,9 @@ public class ResultActivity extends BaseActivity {
         Intent myIntent = new Intent(ResultActivity.this, LoginActivity.class);
         ResultActivity.this.startActivity(myIntent);
         finish();
+    }
+
+    private int evaluateScore(Map<Integer, Integer> answerSheet){
+        return 0;
     }
 }

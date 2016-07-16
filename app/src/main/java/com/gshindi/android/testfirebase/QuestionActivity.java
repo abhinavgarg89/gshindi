@@ -25,7 +25,7 @@ public class QuestionActivity extends BaseActivity {
     private JSONArray jArray;
     TextView questionTextView, secondsRemaining;
     CheckBox[] options = new CheckBox[4];
-    Button nextButton;
+    Button nextButton, previousButton;
     private int totalScore;
 
     @Override
@@ -40,9 +40,10 @@ public class QuestionActivity extends BaseActivity {
         options[2] = (CheckBox) findViewById(R.id.option_3);
         options[3] = (CheckBox) findViewById(R.id.option_4);
         nextButton = (Button) findViewById(R.id.next_button);
+        previousButton = (Button) findViewById(R.id.previous_button);
 
 
-        new CountDownTimer(30000, 1000) {
+        new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 secondsRemaining.setText("seconds remaining: " + millisUntilFinished / 1000);
@@ -76,14 +77,32 @@ public class QuestionActivity extends BaseActivity {
             nextButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Log.d("NextButton", "nextButton tapped");
-                    try {
-                        if (options[jArray.getJSONObject(current_index).getInt("answer") - 1].isChecked()) {
-                            totalScore++;
+                    for(int index = 0; index < 4; index++) {
+                        if (options[index].isChecked()) {
+                            answers_.put(current_index, index);
                         }
-                        current_index++;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
+                    current_index++;
+                    setNextData(current_index);
+                }
+            });
+            previousButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Log.d("PreviousButton", "previousButton tapped");
+                    for(int index = 0; index < 4; index++) {
+                        if (options[index].isChecked()) {
+                            answers_.put(current_index, index);
+                        }
+                    }
+                    current_index--;
+//                    try {
+//                        if (options[jArray.getJSONObject(current_index).getInt("answer") - 1].isChecked()) {
+//                            totalScore++;
+//                        }
+//                        current_index--;
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
                     setNextData(current_index);
                 }
             });
@@ -135,17 +154,11 @@ public class QuestionActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.logout) {
             signOut();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
