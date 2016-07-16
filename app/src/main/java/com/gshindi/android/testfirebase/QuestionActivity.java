@@ -46,7 +46,7 @@ public class QuestionActivity extends BaseActivity {
         previousButton = (Button) findViewById(R.id.previous_button);
 
 
-        new CountDownTimer(60000, 1000) {
+        new CountDownTimer(20000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 secondsRemaining.setText("seconds remaining: " + millisUntilFinished / 1000);
@@ -57,12 +57,13 @@ public class QuestionActivity extends BaseActivity {
             }
 
         }.start();
-        
-        String questionSetName = getIntent().getExtras().get("selectedQuestionPaper").toString();
+
+        String questionSetName = getIntent().getStringExtra("selectedQuestionPaper");
         try {
             int resourceId = this.getResources().getIdentifier(questionSetName, "raw", this.getPackageName());
             InputStream inputStream = getResources().openRawResource(resourceId);
             JSONObject jObject = jsonFileParseUtil_.getJsonObjectForFile(inputStream);
+            answerSheetName_ = jObject.getString("answerSheetName");
             jArray = jObject.getJSONArray("questions");
             max_index = jArray.length() - 1;
             setNextData(current_index);
@@ -129,7 +130,7 @@ public class QuestionActivity extends BaseActivity {
 
     private void startResultActivity() {
         Intent myIntent = new Intent(QuestionActivity.this, ResultActivity.class);
-        myIntent.putExtra("totalScore", totalScore);
+        myIntent.putExtra("answerSheetName", answerSheetName_);
         QuestionActivity.this.startActivity(myIntent);
         finish();
     }

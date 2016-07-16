@@ -6,9 +6,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.gshindi.android.testfirebase.util.JsonFileParseUtil;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.InputStream;
 import java.util.Map;
 
 public class ResultActivity extends BaseActivity {
+
+    JsonFileParseUtil jsonFileParseUtil_ = JsonFileParseUtil.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -16,9 +24,8 @@ public class ResultActivity extends BaseActivity {
         setContentView(R.layout.activity_result);
 
         TextView textView = (TextView) findViewById(R.id.total_Score);
-        Map<Integer, Integer> test = answers_;
-        System.out.println(test.size());
-        int score = evaluateScore(answers_);
+        String answerSheetName = getIntent().getStringExtra("answerSheetName");
+        int score = evaluateScore(answers_, answerSheetName);
         String scoreTestViewString = "Total Score : " + score;
         textView.setText(scoreTestViewString);
 
@@ -67,7 +74,22 @@ public class ResultActivity extends BaseActivity {
         finish();
     }
 
-    private int evaluateScore(Map<Integer, Integer> answerSheet){
-        return 0;
+    private int evaluateScore(Map<Integer, Integer> answerSheet, String answerSheetName) {
+        int totalScore = 0;
+        int resourceId = this.getResources().getIdentifier(answerSheetName, "raw", this.getPackageName());
+        InputStream inputStream = getResources().openRawResource(resourceId);
+        JSONObject jObject = jsonFileParseUtil_.getJsonObjectForFile(inputStream);
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = jObject.getJSONArray("answers");
+            for(Map.Entry<Integer, Integer> entry : answerSheet.entrySet()){
+                if(entry.getValue() == jsonArray.getInt(entry.getKey()) - 1 ){
+                    totalScore++;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalScore;
     }
 }
