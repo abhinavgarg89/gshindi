@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.gshindi.android.testfirebase.util.JsonFileParseUtil;
@@ -27,8 +28,10 @@ public class QuestionActivity extends BaseActivity {
     TextView questionTextView, secondsRemaining;
     RadioButton[] options = new RadioButton[4];
     Button nextButton, previousButton;
-    private int totalScore;
+    private int answer;
     String questionSetName = "questionSetName";
+    CountDownTimer countDownTimer_;
+    boolean isReview = false;
 
     JsonFileParseUtil jsonFileParseUtil_ = JsonFileParseUtil.getInstance();
 
@@ -36,7 +39,7 @@ public class QuestionActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-
+        current_index = 0;
         questionTextView = (TextView) findViewById(R.id.quesion_text);
         secondsRemaining = (TextView) findViewById(R.id.seconds_remaining);
         options[0] = (RadioButton) findViewById(R.id.option_1);
@@ -46,23 +49,25 @@ public class QuestionActivity extends BaseActivity {
         nextButton = (Button) findViewById(R.id.next_button);
         previousButton = (Button) findViewById(R.id.previous_button);
 
+        isReview = getIntent().getBooleanExtra("review", false);
+        if (!isReview) {
+            countDownTimer_ = new CountDownTimer(20000, 1000) {
 
-        new CountDownTimer(2400000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                long minutesRemaining = (millisUntilFinished / 60000);
-                if(minutesRemaining > 0) {
-                    secondsRemaining.setText("Minutes Remaining: " + (int) (millisUntilFinished / 60000));
-                } else {
-                    secondsRemaining.setText("Seconds Remaining: " + (int) (millisUntilFinished / 1000));
+                public void onTick(long millisUntilFinished) {
+                    long minutesRemaining = (millisUntilFinished / 60000);
+                    if (minutesRemaining > 0) {
+                        secondsRemaining.setText("Minutes Remaining: " + (int) (millisUntilFinished / 60000));
+                    } else {
+                        secondsRemaining.setText("Seconds Remaining: " + (int) (millisUntilFinished / 1000));
+                    }
                 }
-            }
 
-            public void onFinish() {
-                startResultActivity();
-            }
-
-        }.start();
+                public void onFinish() {
+                    startResultActivity();
+                }
+            };
+            countDownTimer_.start();
+        }
 
         questionSetName = getIntent().getStringExtra("selectedQuestionPaper");
         try {
@@ -77,9 +82,11 @@ public class QuestionActivity extends BaseActivity {
             nextButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Log.d("NextButton", "nextButton tapped");
-                    for(int index = 0; index < 4; index++) {
-                        if (options[index].isChecked()) {
-                            answers_.put(current_index, index);
+                    if (!isReview) {
+                        for (int index = 0; index < 4; index++) {
+                            if (options[index].isChecked()) {
+                                answers_.put(current_index, index);
+                            }
                         }
                     }
                     current_index++;
@@ -89,9 +96,11 @@ public class QuestionActivity extends BaseActivity {
             previousButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Log.d("PreviousButton", "previousButton tapped");
-                    for(int index = 0; index < 4; index++) {
-                        if (options[index].isChecked()) {
-                            answers_.put(current_index, index);
+                    if (!isReview) {
+                        for (int index = 0; index < 4; index++) {
+                            if (options[index].isChecked()) {
+                                answers_.put(current_index, index);
+                            }
                         }
                     }
                     current_index--;
@@ -103,6 +112,8 @@ public class QuestionActivity extends BaseActivity {
 //                    } catch (JSONException e) {
 //                        e.printStackTrace();
 //                    }
+//                    RadioGroup radioGroup = (RadioGroup)findViewById(R.id.options_radio_group);
+//                    radioGroup.clearCheck();
                     setNextData(current_index);
                 }
             });
@@ -118,16 +129,40 @@ public class QuestionActivity extends BaseActivity {
                 currentObject = jArray.getJSONObject(i);
                 questionTextView.setText(currentObject.getString("text"));
                 JSONArray currentOptions = currentObject.getJSONArray("options");
+                answer = currentObject.getInt("answer");
+                if (!isReview) {
+                    options[0].setChecked(false);
+                    options[1].setChecked(false);
+                    options[2].setChecked(false);
+                    options[3].setChecked(false);
+                }
+//                    options[0].setChecked(false);
+//                    options[1].setChecked(false);
+//                    options[2].setChecked(false);
+//                    options[3].setChecked(false);
+//                }
                 options[0].setText(currentOptions.getString(0));
                 options[1].setText(currentOptions.getString(1));
                 options[2].setText(currentOptions.getString(2));
                 options[3].setText(currentOptions.getString(3));
-                options[0].setChecked(false);
-                options[1].setChecked(false);
-                options[2].setChecked(false);
-                options[3].setChecked(false);
+//                options[0].setChecked(false);
+//                options[1].setChecked(false);
+//                options[2].setChecked(false);
+//                options[3].setChecked(false);
+                RadioGroup radioGroup = (RadioGroup)findViewById(R.id.options_radio_group);
+
+                if (isReview) {
+                    radioGroup.check(radioGroup.getChildAt(answer - 1).getId());
+//                    options[answer - 1].setChecked(true);
+                }
             } else {
-                startResultActivity();
+                if (!isReview) {
+                    startResultActivity();
+                } else {
+                    Intent myIntent = new Intent(QuestionActivity.this, QuestionSetListActivity.class);
+                    QuestionActivity.this.startActivity(myIntent);
+                    finish();
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -138,6 +173,7 @@ public class QuestionActivity extends BaseActivity {
         Intent myIntent = new Intent(QuestionActivity.this, ResultActivity.class);
         myIntent.putExtra("answerSheetName", answerSheetName_);
         myIntent.putExtra("questionSheetName", questionSetName);
+        countDownTimer_.cancel();
         QuestionActivity.this.startActivity(myIntent);
         finish();
     }

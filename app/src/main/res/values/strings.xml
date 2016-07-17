@@ -34,4 +34,6 @@
     <string name="hint_first_name">First Name</string>
     <string name="hint_last_name">Last Name</string>
     <string name="hint_mobile_number">Mobile Number</string>
+    <string name="result_review">Review</string>
+    <string name="home_page">Home</string>
 </resources>

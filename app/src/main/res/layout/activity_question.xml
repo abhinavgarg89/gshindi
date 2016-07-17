@@ -32,6 +32,7 @@
                             android:layout_gravity="bottom"
                             android:orientation="vertical" android:layout_alignParentBottom="true">
                 <RadioGroup
+                    android:id="@+id/options_radio_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.client.Firebase;
@@ -17,18 +18,22 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ResultActivity extends BaseActivity {
+public class ResultActivity extends BaseActivity implements View.OnClickListener {
 
     JsonFileParseUtil jsonFileParseUtil_ = JsonFileParseUtil.getInstance();
+    private String questionSheetName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
+        findViewById(R.id.result_home_page_button).setOnClickListener(this);
+        findViewById(R.id.result_review_button).setOnClickListener(this);
+
         TextView textView = (TextView) findViewById(R.id.total_Score);
         String answerSheetName = getIntent().getStringExtra("answerSheetName");
-        String questionSheetName = getIntent().getStringExtra("questionSheetName");
+        questionSheetName = getIntent().getStringExtra("questionSheetName");
         int score = evaluateScore(answers_, answerSheetName);
         String scoreTestViewString = "Total Score : " + score;
 
@@ -111,5 +116,23 @@ public class ResultActivity extends BaseActivity {
             e.printStackTrace();
         }
         return totalScore;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.result_home_page_button:
+                Intent myIntent = new Intent(ResultActivity.this, QuestionSetListActivity.class);
+                ResultActivity.this.startActivity(myIntent);
+                finish();
+                break;
+            case R.id.result_review_button:
+                Intent intent = new Intent(ResultActivity.this, QuestionActivity.class);
+                intent.putExtra("review", true);
+                intent.putExtra("selectedQuestionPaper", questionSheetName);
+                ResultActivity.this.startActivity(intent);
+                finish();
+                break;
+        }
     }
 }
