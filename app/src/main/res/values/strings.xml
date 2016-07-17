@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TestFirebase</string>
+    <string name="app_name">GSHindi</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
