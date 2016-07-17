@@ -1,72 +1,119 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".RegisterUserActivity">
-
-    <!--<EditText-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:id="@+id/new_user_name"/>-->
-
-    <!--<EditText-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:id="@+id/new_user_password"/>-->
-
-    <!--<Button-->
-        <!--android:id="@+id/new_user_submit_button"-->
-        <!--style="?android:textAppearanceSmall"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="16dp"-->
-        <!--android:text="@string/action_submit"-->
-        <!--android:textStyle="bold"/>-->
-
-    <TextView
-        android:text="Name"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/activity_vertical_margin"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_vertical_margin"
+              tools:context="com.gshindi.android.testfirebase.RegisterUserActivity">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/editTextName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:text="@string/emailpassword_title_text"/>
+
+        <!--<TextView-->
+        <!--android:id="@+id/status"-->
+        <!--android:text="@string/signed_out" android:layout_height="wrap_content"-->
+        <!--android:layout_width="match_parent"/>-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/detail"-->
+        <!--tools:text="Firebase User ID: 123456789abc" android:layout_height="wrap_content"-->
+        <!--android:layout_width="match_parent"/>-->
+
+    </LinearLayout>
 
 
-    <TextView
-        android:text="Address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:gravity="center_vertical">
 
-    <EditText
-        android:id="@+id/editTextAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/register_email_password_fields"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
-    <Button
-        android:id="@+id/buttonSave"
-        android:text="Create"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/register_field_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:hint="@string/hint_first_name"
+                android:inputType="textPersonName" />
 
+            <EditText
+                android:id="@+id/register_field_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:hint="@string/hint_last_name"
+                android:inputType="textPersonName" />
 
-    <TextView
-        android:text="Persons"
-        android:textStyle="bold"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/register_field_mobile_number"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:hint="@string/hint_mobile_number"
+                android:inputType="phone" />
 
-    <TextView
-        android:id="@+id/textViewPersons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/register_field_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress" />
 
+            <EditText
+                android:id="@+id/register_field_password"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:hint="@string/hint_password"
+                android:inputType="textPassword" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/register_email_password_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/register_email_password_fields"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <!--<Button-->
+                <!--android:id="@+id/email_sign_in_button"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="@string/sign_in"/>-->
+
+            <Button
+                android:id="@+id/register_email_create_account_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/create_account" android:layout_weight="1"
+                android:layout_marginLeft="90dp" android:layout_marginTop="40dp"/>
+        </LinearLayout>
+
+    </RelativeLayout>
 </LinearLayout>

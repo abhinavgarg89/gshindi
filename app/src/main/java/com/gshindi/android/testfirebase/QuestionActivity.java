@@ -8,7 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.gshindi.android.testfirebase.util.JsonFileParseUtil;
@@ -25,7 +25,7 @@ public class QuestionActivity extends BaseActivity {
     private int max_index = 0;
     private JSONArray jArray;
     TextView questionTextView, secondsRemaining;
-    CheckBox[] options = new CheckBox[4];
+    RadioButton[] options = new RadioButton[4];
     Button nextButton, previousButton;
     private int totalScore;
     String questionSetName = "questionSetName";
@@ -39,18 +39,23 @@ public class QuestionActivity extends BaseActivity {
 
         questionTextView = (TextView) findViewById(R.id.quesion_text);
         secondsRemaining = (TextView) findViewById(R.id.seconds_remaining);
-        options[0] = (CheckBox) findViewById(R.id.option_1);
-        options[1] = (CheckBox) findViewById(R.id.option_2);
-        options[2] = (CheckBox) findViewById(R.id.option_3);
-        options[3] = (CheckBox) findViewById(R.id.option_4);
+        options[0] = (RadioButton) findViewById(R.id.option_1);
+        options[1] = (RadioButton) findViewById(R.id.option_2);
+        options[2] = (RadioButton) findViewById(R.id.option_3);
+        options[3] = (RadioButton) findViewById(R.id.option_4);
         nextButton = (Button) findViewById(R.id.next_button);
         previousButton = (Button) findViewById(R.id.previous_button);
 
 
-        new CountDownTimer(20000, 1000) {
+        new CountDownTimer(2400000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                secondsRemaining.setText("Seconds Remaining: " + millisUntilFinished / 1000);
+                long minutesRemaining = (millisUntilFinished / 60000);
+                if(minutesRemaining > 0) {
+                    secondsRemaining.setText("Minutes Remaining: " + (int) (millisUntilFinished / 60000));
+                } else {
+                    secondsRemaining.setText("Seconds Remaining: " + (int) (millisUntilFinished / 1000));
+                }
             }
 
             public void onFinish() {

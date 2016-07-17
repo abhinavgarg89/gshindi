@@ -15,7 +15,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="emailpassword_title_text">Enter Username and Password</string>
+    <string name="emailpassword_title_text">Enter User Details</string>
     <string name="sign_in">Sign In</string>
     <string name="create_account">Create Account</string>
     <string name="sign_out">Sign out</string>
@@ -31,4 +31,7 @@
     <string name="option_4">option4</string>
     <string name="next_button">Next</string>
     <string name="previous_button">Previous</string>
+    <string name="hint_first_name">First Name</string>
+    <string name="hint_last_name">Last Name</string>
+    <string name="hint_mobile_number">Mobile Number</string>
 </resources>

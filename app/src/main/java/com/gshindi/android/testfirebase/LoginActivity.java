@@ -212,7 +212,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.email_create_account_button:
-                createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
+//                createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
+                Intent myIntent = new Intent(LoginActivity.this, RegisterUserActivity.class);
+                LoginActivity.this.startActivity(myIntent);
+                finish();
                 break;
             case R.id.email_sign_in_button:
                 signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
