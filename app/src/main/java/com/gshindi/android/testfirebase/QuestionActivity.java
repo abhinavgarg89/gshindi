@@ -55,8 +55,7 @@ public class QuestionActivity extends BaseActivity {
 
         isReview = getIntent().getBooleanExtra("review", false);
         if (!isReview) {
-            countDownTimer_ = new CountDownTimer(20000, 1000) {
-
+            countDownTimer_ = new CountDownTimer(2400000, 1000) {
                 public void onTick(long millisUntilFinished) {
                     long minutesRemaining = (millisUntilFinished / 60000);
                     if (minutesRemaining > 0) {
@@ -65,7 +64,6 @@ public class QuestionActivity extends BaseActivity {
                         secondsRemaining.setText("Seconds Remaining: " + (int) (millisUntilFinished / 1000));
                     }
                 }
-
                 public void onFinish() {
                     startResultActivity();
                 }
@@ -75,7 +73,7 @@ public class QuestionActivity extends BaseActivity {
             commitTestButton.setText("Home");
         }
 
-        questionSetName = getIntent().getStringExtra("selectedQuestionPaper");
+        questionSetName = getIntent().getStringExtra("selectedQuestionPaper").toLowerCase();
         try {
             int resourceId = this.getResources().getIdentifier(questionSetName, "raw", this.getPackageName());
             InputStream inputStream = getResources().openRawResource(resourceId);

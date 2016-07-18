@@ -35,7 +35,7 @@ public class QuestionSetListActivity extends BaseActivity {
             JSONObject jObject = jsonFileParseUtil_.getJsonObjectForFile(inputStream);
             jArray = jObject.getJSONArray("quesionSets");
             for(int index = 0; index < jArray.length(); index++){
-                questionSetList.add(jArray.getString(index));
+                questionSetList.add(jArray.getString(index).toUpperCase());
             }
 
         } catch (JSONException e) {

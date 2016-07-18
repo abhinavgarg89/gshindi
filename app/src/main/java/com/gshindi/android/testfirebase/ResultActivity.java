@@ -121,7 +121,7 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return totalScore * 2 / 3;
+        return Math.round(totalScore * 2 / 3 * 100.0) / 100.0;
     }
 
     @Override
