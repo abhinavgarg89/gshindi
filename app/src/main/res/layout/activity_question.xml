@@ -20,8 +20,18 @@
             android:orientation="vertical">
             <TextView
                 android:id="@+id/seconds_remaining"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+            <Button
+                android:id="@+id/commit_test"
+                style="?android:attr/buttonStyleSmall"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="8sp"
+                android:layout_alignParentRight="true"
+                android:text="@string/commit_test"/>
             <TextView
                 android:id="@+id/quesion_text"
                 android:layout_width="match_parent"
@@ -29,8 +39,8 @@
                 android:layout_marginTop="50dp"/>
             <RelativeLayout android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:orientation="vertical" android:layout_alignParentBottom="true">
+                            android:layout_alignParentBottom="true"
+                            android:layout_gravity="bottom" android:orientation="vertical">
                 <RadioGroup
                     android:id="@+id/options_radio_group"
                     android:layout_width="wrap_content"

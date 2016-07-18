@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gshindi.android.testfirebase.util.JsonFileParseUtil;
 
@@ -27,11 +28,12 @@ public class QuestionActivity extends BaseActivity {
     private JSONArray jArray;
     TextView questionTextView, secondsRemaining;
     RadioButton[] options = new RadioButton[4];
-    Button nextButton, previousButton;
+    Button nextButton, previousButton, commitTestButton;
     private int answer;
     String questionSetName = "questionSetName";
     CountDownTimer countDownTimer_;
     boolean isReview = false;
+    RadioGroup radioGroup;
 
     JsonFileParseUtil jsonFileParseUtil_ = JsonFileParseUtil.getInstance();
 
@@ -47,7 +49,9 @@ public class QuestionActivity extends BaseActivity {
         options[2] = (RadioButton) findViewById(R.id.option_3);
         options[3] = (RadioButton) findViewById(R.id.option_4);
         nextButton = (Button) findViewById(R.id.next_button);
+        radioGroup = (RadioGroup)findViewById(R.id.options_radio_group);
         previousButton = (Button) findViewById(R.id.previous_button);
+        commitTestButton = (Button) findViewById(R.id.commit_test);
 
         isReview = getIntent().getBooleanExtra("review", false);
         if (!isReview) {
@@ -67,6 +71,8 @@ public class QuestionActivity extends BaseActivity {
                 }
             };
             countDownTimer_.start();
+        } else {
+            commitTestButton.setText("Home");
         }
 
         questionSetName = getIntent().getStringExtra("selectedQuestionPaper");
@@ -89,6 +95,7 @@ public class QuestionActivity extends BaseActivity {
                             }
                         }
                     }
+                    radioGroup.clearCheck();
                     current_index++;
                     setNextData(current_index);
                 }
@@ -103,18 +110,24 @@ public class QuestionActivity extends BaseActivity {
                             }
                         }
                     }
-                    current_index--;
-//                    try {
-//                        if (options[jArray.getJSONObject(current_index).getInt("answer") - 1].isChecked()) {
-//                            totalScore++;
-//                        }
-//                        current_index--;
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                    RadioGroup radioGroup = (RadioGroup)findViewById(R.id.options_radio_group);
-//                    radioGroup.clearCheck();
-                    setNextData(current_index);
+                    radioGroup.clearCheck();
+                    if(current_index == 0) {
+                        Toast.makeText(QuestionActivity.this, "You are at first question",
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        current_index--;
+                        setNextData(current_index);
+                    }
+                }
+            });
+            commitTestButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Log.d("PreviousButton", "previousButton tapped");
+                    if(isReview) {
+                        startHomeActivity();
+                    } else {
+                        startResultActivity();
+                    }
                 }
             });
         } catch (Exception e) {
@@ -125,35 +138,17 @@ public class QuestionActivity extends BaseActivity {
     private void setNextData(int i) {
         JSONObject currentObject = null;
         try {
-            if (i <= max_index) {
+            if (i <= max_index ) {
                 currentObject = jArray.getJSONObject(i);
                 questionTextView.setText(currentObject.getString("text"));
                 JSONArray currentOptions = currentObject.getJSONArray("options");
                 answer = currentObject.getInt("answer");
-                if (!isReview) {
-                    options[0].setChecked(false);
-                    options[1].setChecked(false);
-                    options[2].setChecked(false);
-                    options[3].setChecked(false);
-                }
-//                    options[0].setChecked(false);
-//                    options[1].setChecked(false);
-//                    options[2].setChecked(false);
-//                    options[3].setChecked(false);
-//                }
                 options[0].setText(currentOptions.getString(0));
                 options[1].setText(currentOptions.getString(1));
                 options[2].setText(currentOptions.getString(2));
                 options[3].setText(currentOptions.getString(3));
-//                options[0].setChecked(false);
-//                options[1].setChecked(false);
-//                options[2].setChecked(false);
-//                options[3].setChecked(false);
-                RadioGroup radioGroup = (RadioGroup)findViewById(R.id.options_radio_group);
-
                 if (isReview) {
                     radioGroup.check(radioGroup.getChildAt(answer - 1).getId());
-//                    options[answer - 1].setChecked(true);
                 }
             } else {
                 if (!isReview) {
@@ -174,6 +169,14 @@ public class QuestionActivity extends BaseActivity {
         myIntent.putExtra("answerSheetName", answerSheetName_);
         myIntent.putExtra("questionSheetName", questionSetName);
         countDownTimer_.cancel();
+        QuestionActivity.this.startActivity(myIntent);
+        finish();
+    }
+
+    private void startHomeActivity() {
+        Intent myIntent = new Intent(QuestionActivity.this, QuestionSetListActivity.class);
+        myIntent.putExtra("answerSheetName", answerSheetName_);
+        myIntent.putExtra("questionSheetName", questionSetName);
         QuestionActivity.this.startActivity(myIntent);
         finish();
     }

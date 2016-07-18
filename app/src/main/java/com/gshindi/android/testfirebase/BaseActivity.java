@@ -32,13 +32,8 @@ public class BaseActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
-
         mAuth = FirebaseAuth.getInstance();
         ref = new Firebase(Config.FIREBASE_URL);
-        // [END initialize_auth]
-
-        // [START auth_state_listener]
-
     }
 
     public void showProgressDialog() {

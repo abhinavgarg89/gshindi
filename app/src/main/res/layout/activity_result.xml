@@ -10,20 +10,49 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.gshindi.android.testfirebase.ResultActivity">
 
-    <TextView
-        android:id="@+id/total_Score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/result_attributes"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+        <TextView
+            android:id="@+id/total_Question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test"/>
+        <TextView
+            android:id="@+id/total_Attempted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test"/>
+        <TextView
+            android:id="@+id/total_Correct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test"/>
+        <TextView
+            android:id="@+id/total_Wrong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test"/>
+        <TextView
+            android:id="@+id/total_Score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/result_activity_buttons"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/total_Score"
-        android:layout_marginTop="100dp"
+        android:layout_below="@id/result_attributes"
         android:orientation="horizontal"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:paddingRight="16dp" android:layout_marginTop="100dp">
 
         <Button
             android:id="@+id/result_home_page_button"

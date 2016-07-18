@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,30 +21,13 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "EmailPassword";
-
-    private TextView mStatusTextView;
-    private TextView mDetailTextView;
     private EditText mEmailField;
     private EditText mPasswordField;
-
-    // [START declare_auth]
-//    private FirebaseAuth mAuth;
-    // [END declare_auth]
-
-    // [START declare_auth_listener]
-//    private FirebaseAuth.AuthStateListener mAuthListener;
-    // [END declare_auth_listener]
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-//        Firebase.setAndroidContext(this);
-
-        // Views
-//        mStatusTextView = (TextView) findViewById(R.id.status);
-//        mDetailTextView = (TextView) findViewById(R.id.detail);
         mEmailField = (EditText) findViewById(R.id.field_email);
         mPasswordField = (EditText) findViewById(R.id.field_password);
 
@@ -55,11 +37,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
         findViewById(R.id.email_create_account_button).setOnClickListener(this);
 
-        // [START initialize_auth]
-//        mAuth = FirebaseAuth.getInstance();
-//        // [END initialize_auth]
-
-        // [START auth_state_listener]
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -71,23 +48,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // [START_EXCLUDE]
                 updateUI(user);
-                // [END_EXCLUDE]
             }
         };
-         //[END auth_state_listener]
     }
 
-    // [START on_start_add_listener]
     @Override
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
-    // [END on_start_add_listener]
 
-    // [START on_stop_remove_listener]
     @Override
     public void onStop() {
         super.onStop();
@@ -104,8 +75,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
 
         showProgressDialog();
-
-        // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -119,13 +88,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-
-                        // [START_EXCLUDE]
                         hideProgressDialog();
-                        // [END_EXCLUDE]
                     }
                 });
-        // [END create_user_with_email]
     }
 
     private void signIn(String email, String password) {
@@ -136,7 +101,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         showProgressDialog();
 
-        // [START sign_in_with_email]
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -151,13 +115,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-
-                        // [START_EXCLUDE]
                         hideProgressDialog();
-                        // [END_EXCLUDE]
                     }
                 });
-        // [END sign_in_with_email]
     }
 
     public void signOut() {
@@ -212,7 +172,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.email_create_account_button:
-//                createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
                 Intent myIntent = new Intent(LoginActivity.this, RegisterUserActivity.class);
                 LoginActivity.this.startActivity(myIntent);
                 finish();

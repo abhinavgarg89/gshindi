@@ -22,36 +22,43 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
 
     JsonFileParseUtil jsonFileParseUtil_ = JsonFileParseUtil.getInstance();
     private String questionSheetName;
+    private int correctAnswer, wrongAnswer, totalAttempted;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+        correctAnswer = 0; totalAttempted = 0; wrongAnswer = 0;
 
         findViewById(R.id.result_home_page_button).setOnClickListener(this);
         findViewById(R.id.result_review_button).setOnClickListener(this);
 
+        TextView totalQuestiontextView = (TextView) findViewById(R.id.total_Question);
+        TextView totalAttemptedtextView = (TextView) findViewById(R.id.total_Attempted);
+        TextView totalCorrecttextView = (TextView) findViewById(R.id.total_Correct);
+        TextView totalWrongtextView = (TextView) findViewById(R.id.total_Wrong);
         TextView textView = (TextView) findViewById(R.id.total_Score);
+
         String answerSheetName = getIntent().getStringExtra("answerSheetName");
         questionSheetName = getIntent().getStringExtra("questionSheetName");
-        int score = evaluateScore(answers_, answerSheetName);
+        double score = evaluateScore(answers_, answerSheetName);
         String scoreTestViewString = "Total Score : " + score;
-
-        UserPerformanceReport person = new UserPerformanceReport();
-        person.setEmail(userEmail_);
-//        person.setQuesionSetId(questionSheetName);
-//        person.setMarks(score);
+        String totalQuestion = "Total Question : 30 ";
+        String totalAttemptedViewString = "Total Question Attempted : " + answers_.size();
+        String correctAnswerString = "Correct Answer : " + correctAnswer;
+        String wrongAnswerString = "Wrong Answer : " + wrongAnswer;
 
         //Storing values to firebase
         String uid = mAuth.getCurrentUser().getUid();
-//        String name = mAuth.getCurrentUser().getDisplayName();
-//        String test1 = mAuth.getCurrentUser().getProviderId();
-//        String Uid = mAuth.getCurrentUser().getUid();
         Firebase childRef = ref.child("UserPerformanceReport").child(uid).child(questionSheetName);
         Map<String, Object> nickname = new HashMap<String, Object>();
         nickname.put("marks", score);
         nickname.put("date", new Date().toString());
         childRef.updateChildren(nickname);
+        totalQuestiontextView.setText(totalQuestion);
+        totalAttemptedtextView.setText(totalAttemptedViewString);
+        totalCorrecttextView.setText(correctAnswerString);
+        totalWrongtextView.setText(wrongAnswerString);
         textView.setText(scoreTestViewString);
 
     }
@@ -78,12 +85,7 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.logout) {
             signOut();
             return true;
@@ -99,7 +101,7 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
         finish();
     }
 
-    private int evaluateScore(Map<Integer, Integer> answerSheet, String answerSheetName) {
+    private double evaluateScore(Map<Integer, Integer> answerSheet, String answerSheetName) {
         int totalScore = 0;
         int resourceId = this.getResources().getIdentifier(answerSheetName, "raw", this.getPackageName());
         InputStream inputStream = getResources().openRawResource(resourceId);
@@ -109,13 +111,17 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
             jsonArray = jObject.getJSONArray("answers");
             for(Map.Entry<Integer, Integer> entry : answerSheet.entrySet()){
                 if(entry.getValue() == jsonArray.getInt(entry.getKey()) - 1 ){
-                    totalScore++;
+                    totalScore = totalScore + 3;
+                    correctAnswer++;
+                }else{
+                    totalScore--;
+                    wrongAnswer++;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return totalScore;
+        return totalScore * 2 / 3;
     }
 
     @Override
