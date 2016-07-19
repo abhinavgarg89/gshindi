@@ -55,7 +55,7 @@ public class QuestionActivity extends BaseActivity {
 
         isReview = getIntent().getBooleanExtra("review", false);
         if (!isReview) {
-            countDownTimer_ = new CountDownTimer(2400000, 1000) {
+            countDownTimer_ = new CountDownTimer(2100000, 1000) {
                 public void onTick(long millisUntilFinished) {
                     long minutesRemaining = (millisUntilFinished / 60000);
                     if (minutesRemaining > 0) {

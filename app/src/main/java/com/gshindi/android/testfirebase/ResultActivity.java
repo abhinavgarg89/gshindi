@@ -28,7 +28,9 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-        correctAnswer = 0; totalAttempted = 0; wrongAnswer = 0;
+        correctAnswer = 0;
+        totalAttempted = 0;
+        wrongAnswer = 0;
 
         findViewById(R.id.result_home_page_button).setOnClickListener(this);
         findViewById(R.id.result_review_button).setOnClickListener(this);
@@ -64,8 +66,7 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         super.onBackPressed();
         startActivity(new Intent(ResultActivity.this, QuestionSetListActivity.class));
         finish();
@@ -109,11 +110,11 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
         JSONArray jsonArray = null;
         try {
             jsonArray = jObject.getJSONArray("answers");
-            for(Map.Entry<Integer, Integer> entry : answerSheet.entrySet()){
-                if(entry.getValue() == jsonArray.getInt(entry.getKey()) - 1 ){
+            for (Map.Entry<Integer, Integer> entry : answerSheet.entrySet()) {
+                if (entry.getValue() == jsonArray.getInt(entry.getKey()) - 1) {
                     totalScore = totalScore + 3;
                     correctAnswer++;
-                }else{
+                } else {
                     totalScore--;
                     wrongAnswer++;
                 }
@@ -121,7 +122,7 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Math.round(totalScore * 2 / 3 * 100.0) / 100.0;
+        return totalScore * 2 / 3;
     }
 
     @Override
