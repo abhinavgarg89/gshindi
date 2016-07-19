@@ -122,7 +122,7 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return totalScore * 2 / 3;
+        return totalScore * 0.66;
     }
 
     @Override

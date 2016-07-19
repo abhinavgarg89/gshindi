@@ -26,7 +26,7 @@ public class QuestionActivity extends BaseActivity {
     private int current_index = 0;
     private int max_index = 0;
     private JSONArray jArray;
-    TextView questionTextView, secondsRemaining;
+    TextView questionTextView, secondsRemaining, questionNumberTextView;
     RadioButton[] options = new RadioButton[4];
     Button nextButton, previousButton, commitTestButton;
     private int answer;
@@ -44,6 +44,7 @@ public class QuestionActivity extends BaseActivity {
         current_index = 0;
         questionTextView = (TextView) findViewById(R.id.quesion_text);
         secondsRemaining = (TextView) findViewById(R.id.seconds_remaining);
+        questionNumberTextView = (TextView) findViewById(R.id.quesion_number);
         options[0] = (RadioButton) findViewById(R.id.option_1);
         options[1] = (RadioButton) findViewById(R.id.option_2);
         options[2] = (RadioButton) findViewById(R.id.option_3);
@@ -145,6 +146,9 @@ public class QuestionActivity extends BaseActivity {
                 options[1].setText(currentOptions.getString(1));
                 options[2].setText(currentOptions.getString(2));
                 options[3].setText(currentOptions.getString(3));
+                String questionNumber = String.valueOf(i +  1);
+                String questionNumberViewText = "Question Number : " + questionNumber;
+                questionNumberTextView.setText(questionNumberViewText);
                 if (isReview) {
                     radioGroup.check(radioGroup.getChildAt(answer - 1).getId());
                 }
