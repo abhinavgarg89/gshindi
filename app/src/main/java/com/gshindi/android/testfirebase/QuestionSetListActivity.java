@@ -28,7 +28,7 @@ public class QuestionSetListActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_set_list);
-
+        answers_.clear();
         InputStream inputStream = getResources().openRawResource(R.raw.question_set_list);
         ArrayList<String> questionSetList = new ArrayList<>();
         try {
@@ -82,7 +82,7 @@ public class QuestionSetListActivity extends BaseActivity {
 
     @Override
     public void updateUI(Object o) {
-        Intent myIntent = new Intent(QuestionSetListActivity.this, LoginActivity.class);
+        Intent myIntent = new Intent(QuestionSetListActivity.this, WelcomeActivity.class);
         QuestionSetListActivity.this.startActivity(myIntent);
         finish();
     }

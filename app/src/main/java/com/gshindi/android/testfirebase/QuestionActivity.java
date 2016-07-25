@@ -1,6 +1,7 @@
 package com.gshindi.android.testfirebase;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -26,7 +27,7 @@ public class QuestionActivity extends BaseActivity {
     private int current_index = 0;
     private int max_index = 0;
     private JSONArray jArray;
-    TextView questionTextView, secondsRemaining, questionNumberTextView;
+    TextView questionTextView, secondsRemaining, questionNumberTextView, yourAnswerView;
     RadioButton[] options = new RadioButton[4];
     Button nextButton, previousButton, commitTestButton;
     private int answer;
@@ -44,13 +45,14 @@ public class QuestionActivity extends BaseActivity {
         current_index = 0;
         questionTextView = (TextView) findViewById(R.id.quesion_text);
         secondsRemaining = (TextView) findViewById(R.id.seconds_remaining);
+        yourAnswerView = (TextView) findViewById(R.id.your_answer);
         questionNumberTextView = (TextView) findViewById(R.id.quesion_number);
         options[0] = (RadioButton) findViewById(R.id.option_1);
         options[1] = (RadioButton) findViewById(R.id.option_2);
         options[2] = (RadioButton) findViewById(R.id.option_3);
         options[3] = (RadioButton) findViewById(R.id.option_4);
         nextButton = (Button) findViewById(R.id.next_button);
-        radioGroup = (RadioGroup)findViewById(R.id.options_radio_group);
+        radioGroup = (RadioGroup) findViewById(R.id.options_radio_group);
         previousButton = (Button) findViewById(R.id.previous_button);
         commitTestButton = (Button) findViewById(R.id.commit_test);
 
@@ -65,6 +67,7 @@ public class QuestionActivity extends BaseActivity {
                         secondsRemaining.setText("Seconds Remaining: " + (int) (millisUntilFinished / 1000));
                     }
                 }
+
                 public void onFinish() {
                     startResultActivity();
                 }
@@ -110,7 +113,7 @@ public class QuestionActivity extends BaseActivity {
                         }
                     }
                     radioGroup.clearCheck();
-                    if(current_index == 0) {
+                    if (current_index == 0) {
                         Toast.makeText(QuestionActivity.this, "You are at first question",
                                 Toast.LENGTH_LONG).show();
                     } else {
@@ -122,7 +125,7 @@ public class QuestionActivity extends BaseActivity {
             commitTestButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Log.d("PreviousButton", "previousButton tapped");
-                    if(isReview) {
+                    if (isReview) {
                         startHomeActivity();
                     } else {
                         startResultActivity();
@@ -137,7 +140,7 @@ public class QuestionActivity extends BaseActivity {
     private void setNextData(int i) {
         JSONObject currentObject = null;
         try {
-            if (i <= max_index ) {
+            if (i <= max_index) {
                 currentObject = jArray.getJSONObject(i);
                 questionTextView.setText(currentObject.getString("text"));
                 JSONArray currentOptions = currentObject.getJSONArray("options");
@@ -146,11 +149,27 @@ public class QuestionActivity extends BaseActivity {
                 options[1].setText(currentOptions.getString(1));
                 options[2].setText(currentOptions.getString(2));
                 options[3].setText(currentOptions.getString(3));
-                String questionNumber = String.valueOf(i +  1);
+                if (!isReview && answers_.get(i) != null) {
+                    options[answers_.get(i)].setChecked(true);
+                }
+                String questionNumber = String.valueOf(i + 1);
                 String questionNumberViewText = "Question Number : " + questionNumber;
                 questionNumberTextView.setText(questionNumberViewText);
                 if (isReview) {
                     radioGroup.check(radioGroup.getChildAt(answer - 1).getId());
+                    String yourAnswer = "Your Answer : ";
+                    String suffix = "Skipped";
+                    if (answers_.get(i) != null) {
+                        suffix = String.valueOf(answers_.get(i) + 1);
+                    }
+                    yourAnswerView.setText(yourAnswer + suffix);
+                    if (suffix.equals("Skipped") || answers_.get(i) != (answer - 1)) {
+                        yourAnswerView.setTextColor(Color.RED);
+                    } else {
+                        yourAnswerView.setTextColor(Color.GREEN);
+                    }
+                } else {
+                    yourAnswerView.setVisibility(View.GONE);
                 }
             } else {
                 if (!isReview) {
@@ -206,7 +225,7 @@ public class QuestionActivity extends BaseActivity {
 
     @Override
     public void updateUI(Object o) {
-        Intent myIntent = new Intent(QuestionActivity.this, LoginActivity.class);
+        Intent myIntent = new Intent(QuestionActivity.this, WelcomeActivity.class);
         QuestionActivity.this.startActivity(myIntent);
         finish();
     }

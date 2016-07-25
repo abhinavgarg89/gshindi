@@ -72,6 +72,13 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:text="@string/option_4"/>
+                    <TextView
+                        android:id="@+id/your_answer"
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:text="@string/your_answer"/>
                 </RadioGroup>
             </RelativeLayout>
         </RelativeLayout>

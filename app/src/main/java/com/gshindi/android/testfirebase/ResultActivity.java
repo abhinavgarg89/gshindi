@@ -97,7 +97,7 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void updateUI(Object o) {
-        Intent myIntent = new Intent(ResultActivity.this, LoginActivity.class);
+        Intent myIntent = new Intent(ResultActivity.this, WelcomeActivity.class);
         ResultActivity.this.startActivity(myIntent);
         finish();
     }

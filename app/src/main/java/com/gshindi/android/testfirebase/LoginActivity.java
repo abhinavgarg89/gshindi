@@ -35,7 +35,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         // Buttons
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
-        findViewById(R.id.email_create_account_button).setOnClickListener(this);
+//        findViewById(R.id.email_create_account_button).setOnClickListener(this);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -171,11 +171,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.email_create_account_button:
-                Intent myIntent = new Intent(LoginActivity.this, RegisterUserActivity.class);
-                LoginActivity.this.startActivity(myIntent);
-                finish();
-                break;
+//            case R.id.email_create_account_button:
+//                Intent myIntent = new Intent(LoginActivity.this, RegisterUserActivity.class);
+//                LoginActivity.this.startActivity(myIntent);
+//                finish();
+//                break;
             case R.id.email_sign_in_button:
                 signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
                 break;
